@@ -24,7 +24,11 @@ public class LineItem {
 		return qty;
 	}
 
-    double totalAmount() {
+	double totalAmount() {
         return price * qty;
     }
+
+	public String toString() {
+		return desc + "\t" + price + "\t" + qty + "\t" + totalAmount() + "\n";
+	}
 }
