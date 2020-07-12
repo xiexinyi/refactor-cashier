@@ -3,6 +3,7 @@ package cc.xpbootcamp.warmup.cashier;
 import java.util.List;
 
 public class Order {
+    private static final double TAX_RATE = .10;
     private String cName;
     private String addr;
     private List<LineItem> lineItemList;
@@ -28,7 +29,7 @@ public class Order {
   double calculateTotalAmountWithTax() {
     double total = 0d;
     for (LineItem lineItem : getLineItems()) {
-      total += lineItem.totalAmount() + lineItem.totalAmount() * .10;
+      total += lineItem.totalAmount() + lineItem.totalAmount() * TAX_RATE;
     }
     return total;
   }
@@ -36,7 +37,8 @@ public class Order {
   double calculateTotalSalesTax() {
     double totalSalesTax = 0d;
     for (LineItem lineItem : getLineItems()) {
-      double salesTax = lineItem.totalAmount() * .10;
+
+      double salesTax = lineItem.totalAmount() * TAX_RATE;
       totalSalesTax += salesTax;
     }
     return totalSalesTax;
