@@ -46,38 +46,33 @@ public class OrderReceipt {
 
         printSalesTax(output);
 
-        printDiscount(output);
-
-        printTotalPrice(output);
+        printDiscountAndTotalPrice(output);
 
         return output.toString();
     }
 
-    private void printDiscount(StringBuilder output) {
-        if (isTodayWed()) {
-            BigDecimal discount = new BigDecimal(order.calculateTotalAmountWithTax() * (1 - DISCOUNT_RATE))
+    private void printDiscountAndTotalPrice(StringBuilder output) {
+        double priceBeforeDiscount = order.calculateTotalAmountWithTax();
+        if (isTodayDiscountDay()) {
+            BigDecimal discount = new BigDecimal(priceBeforeDiscount * (1 - DISCOUNT_RATE))
                 .setScale(SCALE, RoundingMode.HALF_UP);
             output.append(DISCOUNT).append('\t').append(discount);
+
+            BigDecimal totalPrice = new BigDecimal(order.calculateTotalAmountWithTax() * DISCOUNT_RATE)
+                .setScale(SCALE, RoundingMode.HALF_UP);
+            output.append(TOTAL_PRICE).append('\t').append(totalPrice);
+        } else {
+            output.append(TOTAL_PRICE).append('\t').append(priceBeforeDiscount);
         }
     }
 
-    private boolean isTodayWed() {
+    private boolean isTodayDiscountDay() {
         return DISCOUNT_DAY.equals(dateUtil.getDateInWeekAsString());
     }
 
     private void printDate(StringBuilder output) {
         output.append('\n').append(dateUtil.getDateAsString())
             .append(", ").append(dateUtil.getDateInWeekAsString());
-    }
-
-    private void printTotalPrice(StringBuilder output) {
-        if (isTodayWed()) {
-            BigDecimal totalPrice = new BigDecimal(order.calculateTotalAmountWithTax() * DISCOUNT_RATE)
-                .setScale(SCALE, RoundingMode.HALF_UP);
-            output.append(TOTAL_PRICE).append('\t').append(totalPrice);
-        } else {
-            output.append(TOTAL_PRICE).append('\t').append(order.calculateTotalAmountWithTax());
-        }
     }
 
     private void printSalesTax(StringBuilder output) {
