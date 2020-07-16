@@ -10,14 +10,24 @@ package cc.xpbootcamp.warmup.cashier;
 public class OrderReceipt {
     private Order order;
 
+    private final DateUtil dateUtil;
+
     public OrderReceipt(Order order) {
         this.order = order;
+        this.dateUtil = new DateUtil();
+    }
+
+    public OrderReceipt(Order order, DateUtil dateUtil) {
+        this.order = order;
+        this.dateUtil = dateUtil;
     }
 
     public String printReceipt() {
         StringBuilder output = new StringBuilder();
 
         printHeader(output);
+
+        printDate(output);
 
         printLineItems(output);
 
@@ -26,6 +36,11 @@ public class OrderReceipt {
         printTotalAmount(output);
 
         return output.toString();
+    }
+
+    private void printDate(StringBuilder output) {
+        output.append('\n').append(dateUtil.getDateAsString())
+            .append(", ").append(dateUtil.getDateInWeekAsString());
     }
 
     private void printTotalAmount(StringBuilder output) {
