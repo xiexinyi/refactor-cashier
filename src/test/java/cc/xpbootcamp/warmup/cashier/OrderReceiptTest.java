@@ -53,4 +53,23 @@ class OrderReceiptTest {
         assertThat(output, containsString("2020年7月17日"));
             assertThat(output, containsString("星期日"));
     }
+
+    @Test
+    void shouldGiveDiscountOnWed() {
+        DateUtil mockDateUtil = mock(DateUtil.class);
+        when(mockDateUtil.getDateAsString()).thenReturn("2020年7月15日");
+        when(mockDateUtil.getDateInWeekAsString()).thenReturn("星期三");
+
+        List<LineItem> lineItems = new ArrayList<LineItem>() {{
+            add(new LineItem("巧克力", 21.5, 2));
+            add(new LineItem("小白菜", 10.0, 1));
+        }};
+
+        OrderReceipt receipt = new OrderReceipt(new Order(lineItems), mockDateUtil);
+
+        String output = receipt.printReceipt();
+
+        assertThat(output, containsString("折扣：\t1.17"));
+        assertThat(output, containsString("总价：\t57.13"));
+    }
 }

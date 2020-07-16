@@ -1,5 +1,10 @@
 package cc.xpbootcamp.warmup.cashier;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+import static java.lang.Math.round;
+
 /**
  * OrderReceipt prints the details of order including customer name, address, description, quantity,
  * price and amount. It also calculates the sales tax @ 10% and prints as part
@@ -33,9 +38,19 @@ public class OrderReceipt {
 
         printSalesTax(output);
 
-        printTotalAmount(output);
+        printDiscount(output);
+
+        printTotalPrice(output);
 
         return output.toString();
+    }
+
+    private void printDiscount(StringBuilder output) {
+        if ("星期三".equals(dateUtil.getDateInWeekAsString())) {
+            BigDecimal discount = new BigDecimal(order.calculateTotalAmountWithTax() * 0.02)
+                .setScale(2, RoundingMode.HALF_UP);
+            output.append("折扣：").append('\t').append(discount);
+        }
     }
 
     private void printDate(StringBuilder output) {
@@ -43,8 +58,14 @@ public class OrderReceipt {
             .append(", ").append(dateUtil.getDateInWeekAsString());
     }
 
-    private void printTotalAmount(StringBuilder output) {
-        output.append("总价：").append('\t').append(order.calculateTotalAmountWithTax());
+    private void printTotalPrice(StringBuilder output) {
+        if ("星期三".equals(dateUtil.getDateInWeekAsString())) {
+            BigDecimal totalPrice = new BigDecimal(order.calculateTotalAmountWithTax() * 0.98)
+                .setScale(2, RoundingMode.HALF_UP);
+            output.append("总价：").append('\t').append(totalPrice);
+        } else {
+            output.append("总价：").append('\t').append(order.calculateTotalAmountWithTax());
+        }
     }
 
     private void printSalesTax(StringBuilder output) {
