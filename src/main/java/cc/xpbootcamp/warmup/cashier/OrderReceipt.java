@@ -13,6 +13,14 @@ import static java.lang.Math.round;
  *
  */
 public class OrderReceipt {
+    private static final String DISCOUNT_DAY = "星期三";
+    private static final String TOTAL_PRICE = "总价：";
+    private static final String TAX = "税额：";
+    private static final String DISCOUNT = "折扣：";
+    private static final String HEADER = "======老王超市，值得信赖======\n";
+    private static final int SCALE = 2;
+    private static final double DISCOUNT_RATE = 0.98;
+
     private Order order;
 
     private final DateUtil dateUtil;
@@ -47,14 +55,14 @@ public class OrderReceipt {
 
     private void printDiscount(StringBuilder output) {
         if (isTodayWed()) {
-            BigDecimal discount = new BigDecimal(order.calculateTotalAmountWithTax() * 0.02)
-                .setScale(2, RoundingMode.HALF_UP);
-            output.append("折扣：").append('\t').append(discount);
+            BigDecimal discount = new BigDecimal(order.calculateTotalAmountWithTax() * (1 - DISCOUNT_RATE))
+                .setScale(SCALE, RoundingMode.HALF_UP);
+            output.append(DISCOUNT).append('\t').append(discount);
         }
     }
 
     private boolean isTodayWed() {
-        return "星期三".equals(dateUtil.getDateInWeekAsString());
+        return DISCOUNT_DAY.equals(dateUtil.getDateInWeekAsString());
     }
 
     private void printDate(StringBuilder output) {
@@ -64,16 +72,16 @@ public class OrderReceipt {
 
     private void printTotalPrice(StringBuilder output) {
         if (isTodayWed()) {
-            BigDecimal totalPrice = new BigDecimal(order.calculateTotalAmountWithTax() * 0.98)
-                .setScale(2, RoundingMode.HALF_UP);
-            output.append("总价：").append('\t').append(totalPrice);
+            BigDecimal totalPrice = new BigDecimal(order.calculateTotalAmountWithTax() * DISCOUNT_RATE)
+                .setScale(SCALE, RoundingMode.HALF_UP);
+            output.append(TOTAL_PRICE).append('\t').append(totalPrice);
         } else {
-            output.append("总价：").append('\t').append(order.calculateTotalAmountWithTax());
+            output.append(TOTAL_PRICE).append('\t').append(order.calculateTotalAmountWithTax());
         }
     }
 
     private void printSalesTax(StringBuilder output) {
-        output.append("税额：").append('\t').append(order.calculateTotalSalesTax());
+        output.append(TAX).append('\t').append(order.calculateTotalSalesTax());
     }
 
     private void printLineItems(StringBuilder output) {
@@ -83,6 +91,6 @@ public class OrderReceipt {
     }
 
     private void printHeader(StringBuilder output) {
-        output.append("======老王超市，值得信赖======\n");
+        output.append(HEADER);
     }
 }
