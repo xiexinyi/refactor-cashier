@@ -7,6 +7,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.startsWith;
 
 class OrderReceiptTest {
     @Test
@@ -15,7 +16,6 @@ class OrderReceiptTest {
         OrderReceipt receipt = new OrderReceipt(order);
 
         String output = receipt.printReceipt();
-
 
         assertThat(output, containsString("Mr X"));
         assertThat(output, containsString("Chicago, 60601"));
@@ -39,4 +39,12 @@ class OrderReceiptTest {
         assertThat(output, containsString("Total Amount\t71.5"));
     }
 
+    @Test
+    void shouldPrintHeaderOnReceipt() {
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, new ArrayList<>()));
+
+        String output = receipt.printReceipt();
+
+        assertThat(output, startsWith("======老王超市，值得信赖======\n"));
+    }
 }

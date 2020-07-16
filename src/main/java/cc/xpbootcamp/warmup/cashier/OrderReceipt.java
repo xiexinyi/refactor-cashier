@@ -50,6 +50,6 @@ public class OrderReceipt {
     }
 
     private void printHeader(StringBuilder output) {
-        output.append("======Printing Orders======\n");
+        output.append("======老王超市，值得信赖======\n");
     }
 }
