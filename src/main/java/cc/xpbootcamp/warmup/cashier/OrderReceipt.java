@@ -19,8 +19,6 @@ public class OrderReceipt {
 
         printHeader(output);
 
-        printCustomerInfo(output);
-
         printLineItems(output);
 
         printSalesTax(output);
@@ -42,11 +40,6 @@ public class OrderReceipt {
         for (LineItem lineItem : order.getLineItems()) {
             output.append(lineItem.toString());
         }
-    }
-
-    private void printCustomerInfo(StringBuilder output) {
-        output.append(order.getCustomerName());
-        output.append(order.getCustomerAddress());
     }
 
     private void printHeader(StringBuilder output) {

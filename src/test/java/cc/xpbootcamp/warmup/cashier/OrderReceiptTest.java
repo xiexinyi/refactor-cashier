@@ -10,16 +10,6 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.startsWith;
 
 class OrderReceiptTest {
-    @Test
-    void shouldPrintCustomerInformationOnOrder() {
-        Order order = new Order("Mr X", "Chicago, 60601", new ArrayList<LineItem>());
-        OrderReceipt receipt = new OrderReceipt(order);
-
-        String output = receipt.printReceipt();
-
-        assertThat(output, containsString("Mr X"));
-        assertThat(output, containsString("Chicago, 60601"));
-    }
 
     @Test
     public void shouldPrintLineItemAndSalesTaxInformation() {
@@ -28,7 +18,7 @@ class OrderReceiptTest {
             add(new LineItem("biscuits", 5.0, 5));
             add(new LineItem("chocolate", 20.0, 1));
         }};
-        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems));
+        OrderReceipt receipt = new OrderReceipt(new Order(lineItems));
 
         String output = receipt.printReceipt();
 
@@ -41,7 +31,7 @@ class OrderReceiptTest {
 
     @Test
     void shouldPrintHeaderOnReceipt() {
-        OrderReceipt receipt = new OrderReceipt(new Order(null, null, new ArrayList<>()));
+        OrderReceipt receipt = new OrderReceipt(new Order(new ArrayList<>()));
 
         String output = receipt.printReceipt();
 
