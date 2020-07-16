@@ -46,11 +46,15 @@ public class OrderReceipt {
     }
 
     private void printDiscount(StringBuilder output) {
-        if ("星期三".equals(dateUtil.getDateInWeekAsString())) {
+        if (isTodayWed()) {
             BigDecimal discount = new BigDecimal(order.calculateTotalAmountWithTax() * 0.02)
                 .setScale(2, RoundingMode.HALF_UP);
             output.append("折扣：").append('\t').append(discount);
         }
+    }
+
+    private boolean isTodayWed() {
+        return "星期三".equals(dateUtil.getDateInWeekAsString());
     }
 
     private void printDate(StringBuilder output) {
@@ -59,7 +63,7 @@ public class OrderReceipt {
     }
 
     private void printTotalPrice(StringBuilder output) {
-        if ("星期三".equals(dateUtil.getDateInWeekAsString())) {
+        if (isTodayWed()) {
             BigDecimal totalPrice = new BigDecimal(order.calculateTotalAmountWithTax() * 0.98)
                 .setScale(2, RoundingMode.HALF_UP);
             output.append("总价：").append('\t').append(totalPrice);
