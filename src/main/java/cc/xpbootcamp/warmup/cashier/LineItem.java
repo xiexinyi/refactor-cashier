@@ -28,6 +28,6 @@ public class LineItem {
     }
 
 	public String toString() {
-		return description + "\t" + price + "\t" + quantity + "\t" + totalAmount() + "\n";
+		return description + ',' + "\t" + price + "\t" + 'x' + '\t' + quantity + "\t" + totalAmount() + "\n";
 	}
 }

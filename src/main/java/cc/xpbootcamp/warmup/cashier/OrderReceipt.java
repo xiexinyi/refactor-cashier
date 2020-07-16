@@ -44,11 +44,11 @@ public class OrderReceipt {
     }
 
     private void printTotalAmount(StringBuilder output) {
-        output.append("Total Amount").append('\t').append(order.calculateTotalAmountWithTax());
+        output.append("总价：").append('\t').append(order.calculateTotalAmountWithTax());
     }
 
     private void printSalesTax(StringBuilder output) {
-        output.append("Sales Tax").append('\t').append(order.calculateTotalSalesTax());
+        output.append("税额：").append('\t').append(order.calculateTotalSalesTax());
     }
 
     private void printLineItems(StringBuilder output) {
